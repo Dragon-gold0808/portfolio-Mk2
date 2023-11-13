@@ -1,0 +1,31 @@
+
+_______________________________________________________________________________
+
+Student
+
+Chase Roll
+Hand crafted design & web development
+
+Design tools:
+Figma
+Photoshop
+Blender
+
+twitter.com/chaseRoll_
+github.com/chaseRoll
+
+_______________________________________________________________________________
+
+TECHNOLOGY
+
+React
+Next.js
+Three.js
+Framer Motion
+
+_______________________________________________________________________________
+
+FONTS
+
+Gotham
+Hiragino Kaku Gothic

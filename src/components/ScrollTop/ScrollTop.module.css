@@ -1,0 +1,129 @@
+.scrollIndicator {
+    position: fixed;
+    bottom: 50px;
+    right: 50px;
+    width: 45px;
+    
+    height: 40px;
+    
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+    transition: all 0.3s;
+    z-index: 31;
+
+    &[data-hidden='true'] {
+        opacity: 0.8;
+    }
+    
+    &[data-hidden='false'] {
+        opacity: 0;
+    }
+}
+.wrapper {
+    position: relative;
+    width: 40px;
+    height: 40px;
+    /* border-radius: 5px; */
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    animation: anim 3s ease-in-out infinite reverse ;    
+    background-color: rgb(var(--rgbText));
+ 
+    &::after {
+        
+        content: '';
+        background: rgb(var(--rgbBackground));
+        position: absolute;
+        transition: all 0.3s;
+        inset: 0;
+        clip-path: polygon(30px 40px, 50px 50px, 40px 30px);
+      }
+}
+
+@keyframes anim {
+    0% {
+        transform: translate3d(0.5px, 9px, 0);
+        opacity: 1;
+      }
+    
+      30% {
+        transform: translate3d(0.5px, 19px, 0);
+        opacity: 1;
+      }
+    
+      100% {
+        transform: translate3d(0.5px, 9px, 0);
+        opacity: 1;
+      }
+}
+
+.topLeft{
+    position: absolute;
+    top:15px;
+    left: 10px;
+    height: 2px;
+    width: 12px;
+    background-color: rgb(var(--rgbBackground));
+    transform: rotate(-45deg);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    
+}
+
+.topRight{
+    position: absolute;
+    top:15px;
+    right: 10px;
+    height: 2px;
+    width: 12px;
+    background-color: rgb(var(--rgbBackground));
+    transform: rotate(45deg);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    
+}
+.bottomLeft{
+    position: absolute;
+    top: 23px;
+    left: 10px;
+    height: 2px;
+    background-color: rgb(var(--rgbBackground));
+    width: 12px;
+    transform: rotate(-45deg);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-left-radius: 2px;
+    
+}
+
+.bottomRight{
+    position: absolute;
+    top: 23px;
+    right: 10px;
+    height: 2px;
+    width: 12px;
+    background-color: rgb(var(--rgbBackground));
+    transform: rotate(45deg);
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    
+}
+
+.bottom {
+    position: absolute;
+    top: 23px;
+    right: 8px;
+    height: 2px;
+    width: 12px;
+    /* transform: rotate(45deg); */
+    border-top-left-radius: 2px;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+    
+}

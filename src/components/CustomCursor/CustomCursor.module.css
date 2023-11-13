@@ -1,0 +1,16 @@
+
+.custom_cursor_2 {
+  position: fixed;
+  width: 29px;
+  height: 29px;
+  border-radius: 50%;
+  border: 1px solid white;
+  transition: all 0.1s;
+  opacity: 0;
+  z-index: 1500;
+  pointer-events: none;
+
+  @media(max-width: 425px) {
+    display: none!important;
+  }
+}
