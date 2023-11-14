@@ -23,7 +23,6 @@
   }
 }
 
-
 .svg {
   position: absolute;
   right: 0;
@@ -36,14 +35,13 @@
   fill: rgb(var(--colorTextTitle) / 0.3);
 
   @media (max-height: 768px) {
-    opacity: 0!important;
+    opacity: 0 !important;
   }
 
   &[data-visible='true'] {
     opacity: 1;
   }
 }
-
 
 .logo {
   display: flex;
@@ -78,7 +76,7 @@
 }
 
 .navLink {
-  padding: var(--spaceM);
+  padding: 0.75vw;
   color: rgb(var(--rgbText) / 0.8);
   font-weight: var(--fontWeightMedium);
   font-size: var(--headerNavFontSize);
@@ -255,18 +253,16 @@
   }
 }
 .navSpan {
-
   gap: 5px;
 
-  & span{
+  & span {
     font-weight: 1000;
     font-size: 15px;
   }
 
   @media (max-height: 850px) {
-    display: none!important;
+    display: none !important;
   }
-
 }
 
 .navAnim {
@@ -280,7 +276,7 @@
 }
 
 @keyframes fadeIn {
-  0%{
+  0% {
     opacity: 0;
     left: 0px;
   }
@@ -288,11 +284,10 @@
     opacity: 1;
     left: 20px;
   }
-  
 }
 
 @keyframes fadeOut {
-  0%{
+  0% {
     opacity: 1;
     left: 20px;
   }
@@ -300,5 +295,4 @@
     opacity: 0;
     left: 0px;
   }
-  
 }

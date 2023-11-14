@@ -15,7 +15,7 @@ import { navLinks, socialLinks } from './navData';
 import { DecoderText } from 'components/DecoderText';
 import profileKatakana from 'assets/katakana-profile.svg?url';
 
-export const Navbar = () => {
+export function Navbar() {
   const [current, setCurrent] = useState();
   const [target, setTarget] = useState();
   const [show, setShow] = useState(true);
@@ -28,20 +28,14 @@ export const Navbar = () => {
   const headerRef = useRef();
   const isMobile = windowSize.width <= media.mobile || windowSize.height <= 696;
   const scrollToHash = useScrollToHash();
-  
+
   useEffect(() => {
     // Prevent ssr mismatch by storing this in state
     setCurrent(asPath);
   }, [asPath]);
 
-  useEffect(() => {
-    // console.log("SECTION ID");
-    // console.log(section)
-    // console.log(section.id);
-  }, [section])
-  
   const scrolls = () => {
-    if(window.scrollY > prevScroll && flag) setShow(false);
+    if (window.scrollY > prevScroll && flag) setShow(false);
     else setShow(true);
     setPrevScroll(window.scrollY);
     setFlag(true);
@@ -50,7 +44,7 @@ export const Navbar = () => {
   useEffect(() => {
     window.addEventListener('scroll', scrolls);
     return window.removeEventListener('scroll', scrolls);
-  },[prevScroll]);
+  }, [prevScroll]);
 
   // Handle smooth scroll nav items
   useEffect(() => {
@@ -166,7 +160,7 @@ export const Navbar = () => {
 
   return (
     <header className={styles.navbar} ref={headerRef}>
-      
+
       <RouterLink href={route === '/' ? '/#intro' : '/'} scroll={false}>
         <a
           data-navbar-item
@@ -175,17 +169,17 @@ export const Navbar = () => {
           onClick={handleMobileNavClick}
           style={{
             transition: "all 0.3s ease-in-out",
-            opacity: !isMobile || menuOpen ? 1 :  (show  ? 1 : 0)
+            opacity: !isMobile || menuOpen ? 1 : (show ? 1 : 0)
           }}
         >
           <Monogram highlight />
         </a>
       </RouterLink>
-      <NavToggle onClick={() => dispatch({ type: 'toggleMenu' })} menuOpen={menuOpen} style = {{
+      <NavToggle onClick={() => dispatch({ type: 'toggleMenu' })} menuOpen={menuOpen} style={{
         transition: "all 0.3s ease-in-out",
-        opacity: !isMobile || menuOpen ? 1 :  (show ? 1 : 0)
-      }}/>
-      
+        opacity: !isMobile || menuOpen ? 1 : (show ? 1 : 0)
+      }} />
+
       <nav className={styles.nav}>
         <div className={styles.navList}>
           {navLinks.map(({ label, pathname }) => (
@@ -203,6 +197,7 @@ export const Navbar = () => {
         </div>
         <NavbarIcons desktop />
       </nav>
+
       <Transition unmount in={menuOpen} timeout={msToNum(tokens.base.durationL)}>
         {visible => (
           <nav className={styles.mobileNav} data-visible={visible}>
@@ -211,7 +206,7 @@ export const Navbar = () => {
                 <a
                   className={styles.mobileNavLink}
                   data-visible={visible}
-                  aria-current={getCurrent(pathname) == 'page' || section.id == label.toLowerCase()? 'page'  : ""}
+                  aria-current={getCurrent(pathname) == 'page' || section.id == label.toLowerCase() ? 'page' : ""}
                   onClick={handleMobileNavClick}
                   style={cssProps({
                     transitionDelay: numToMs(
@@ -235,9 +230,9 @@ export const Navbar = () => {
 
 const NavbarIcons = ({ desktop }) => (
   <div className={styles.navIcons}>
-    
-    {socialLinks.map(({label, url, icon}) => (<NavIconLink label = {label} url = {url} icon = {icon} key = {label} desktop = {desktop} />))
-  }
+
+    {socialLinks.map(({ label, url, icon }) => (<NavIconLink label={label} url={url} icon={icon} key={label} desktop={desktop} />))
+    }
   </div>
 );
 
@@ -246,46 +241,46 @@ const NavIconLink = ({ label, url, icon, desktop }) => {
   const [visible, setVisible] = useState(false);
 
   return (
-  <a
-    key={label}
-    data-navbar-item={desktop || undefined}
-    className={styles.navIconLink}
-    aria-label={label}
-    href={url}
-    target="_blank"
-    rel="noopener noreferrer"
-    onMouseOver = {(e) => {
-      // e.preventDefault();
-      setVisible(true);
-    }}
-    onMouseOut={(e) => {
-      // e.preventDefault();
-      setVisible(false);
-    }}
-  >
-    <Icon className={styles.navIcon} icon={icon} />
-    <span className = {styles.navSpan} style={{
-      
-      margin: "0",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "flex-start",
-      position: "relative",
-      padding: "0",
-    }}>
-    {visible && <div style = {
-      {
-        position: "absolute",
-        top: "-8px",
-        left: visible ? "20px" : "0px",
-        opacity: visible ? 1 : 0, 
-        width: "100px"
-      }
-    } className = {styles.navAnim} data-show={visible}><DecoderText  text = {label} start = {visible} startDelay = {1000} />
-    </div>
-    }    
-    </span>
-    
-  </a>
+    <a
+      key={label}
+      data-navbar-item={desktop || undefined}
+      className={styles.navIconLink}
+      aria-label={label}
+      href={url}
+      target="_blank"
+      rel="noopener noreferrer"
+      onMouseOver={(e) => {
+        // e.preventDefault();
+        setVisible(true);
+      }}
+      onMouseOut={(e) => {
+        // e.preventDefault();
+        setVisible(false);
+      }}
+    >
+      <Icon className={styles.navIcon} icon={icon} />
+      <span className={styles.navSpan} style={{
+
+        margin: "0",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "flex-start",
+        position: "relative",
+        padding: "0",
+      }}>
+        {visible && <div style={
+          {
+            position: "absolute",
+            top: "-8px",
+            left: visible ? "20px" : "0px",
+            opacity: visible ? 1 : 0,
+            width: "100px"
+          }
+        } className={styles.navAnim} data-show={visible}><DecoderText text={label} start={visible} startDelay={1000} />
+        </div>
+        }
+      </span>
+
+    </a>
   );
-  };
+};

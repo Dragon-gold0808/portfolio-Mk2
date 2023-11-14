@@ -16,6 +16,13 @@ import { Transition } from 'components/Transition';
 import { Fragment, useState } from 'react';
 import { media } from 'utils/style';
 import styles from './Profile.module.css';
+import TiltPhaseSix from 'components/Image/tiltPhaseSix';
+
+const options = {
+  max: 10,
+  perspective: 1000,
+  scale: 1.05,
+}
 
 const ProfileText = ({ visible, titleId }) => (
   <Fragment>
@@ -109,20 +116,37 @@ export const Profile = ({ id, visible, sectionRef }) => {
                 </Button>
               </div>
             </div>
-            <div className={styles.column} style={{marginTop: "-100px"}}>
+            <div className={styles.column} style={{ marginTop: "-100px" }}>
               <div className={styles.tag} aria-hidden>
                 <Divider
                   notchWidth="64px"
                   notchHeight="8px"
                   collapsed={!visible}
                   collapseDelay={2000}
-                  
+
                 />
                 <div className={styles.tagText} data-visible={visible}>
                   About Me
                 </div>
               </div>
               <div className={styles.image}>
+                {/* <Image
+                  noPauseButton
+                  play={true}
+                  reveal
+                  delay={100}
+                  srcSet={[profileImg1, profileImg1]}
+                  placeholder={profileImgPlaceholder}
+                  sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
+                  // delay={0}
+                  alt=""
+                  role="presentation"
+                /> */}
+                {/* <TiltPhaseSix
+                  options={options}
+                >
+                  <img src={profileImg1} alt="" />
+                </TiltPhaseSix> */}
                 <Image
                   reveal
                   delay={100}
@@ -130,7 +154,7 @@ export const Profile = ({ id, visible, sectionRef }) => {
                   srcSet={[profileImg1, profileImg1]}
                   sizes={`(max-width: ${media.mobile}px) 100vw, 480px`}
                   alt="Me as a child with my mother"
-                  
+                  className={styles.imageZoom}
                 />
                 {/* <Image
                   reveal

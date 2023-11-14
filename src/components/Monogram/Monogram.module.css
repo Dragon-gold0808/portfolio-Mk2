@@ -1,7 +1,13 @@
 .monogram {
+  fill: rgb(var(--rgbAccent));
+  transition: fill var(--durationL) ease;
+  opacity: 0, 3;
+}
+
+.monogram:hover {
   fill: rgb(var(--rgbAccent) / 0.4);
   transition: fill var(--durationL) ease;
-  opacity: 0,3;
+  opacity: 0, 3;
 }
 
 .highlight {
@@ -17,7 +23,7 @@
   }
 
   @nest :is(a:focus, a:hover, .monogram:hover) & {
-    opacity: 1;
+    /* opacity: 1; */
     transform: scale3d(1, 1, 1);
     transform-origin: bottom;
     transition: opacity 0.1s ease;
@@ -26,4 +32,8 @@
       transition: transform var(--durationM) var(--bezierFastoutSlowin), opacity 0.1s ease;
     }
   }
+}
+
+.customColor {
+  color: blue;
 }

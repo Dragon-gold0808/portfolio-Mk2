@@ -44,7 +44,7 @@ export const List = (props) => {
   const projectTwo = useRef();
   const projectThree = useRef();
   const projectFour = useRef();
-  const [size, setSize] = useState(4);
+  const [size, setSize] = useState(2);
   const searchText = useFormInput('');
   const [filterType, setFilterType] = useState("");
   const [text, setText] = useState('');
@@ -57,7 +57,7 @@ export const List = (props) => {
   // console.log(projectThree);
   const projectType = ["Engineering", "Electronics", "Computer Science"];
 
-  const projects =  [
+  const projects = [
     {
       id: "project-1",
       sectionRef: projectOne,
@@ -124,7 +124,7 @@ export const List = (props) => {
           },
         ]
       }
-    }, 
+    },
     {
       id: "project-4",
       sectionRef: projectFour,
@@ -152,27 +152,26 @@ export const List = (props) => {
     },
   ];
 
-
   // useEffect(() => {
   //   const newSection = size === 3 ? refArray[2] : size === 4 ? refArray[3] : null;
   //   if(newSection === null) {
   //     console.log('yes');
   //     setSection([refArray[0], refArray[1]]);
-      
+
   //   }
   //   else setSection((prevSections) => [...prevSections, newSection]);
   // }, [size]);
 
   useEffect(() => {
     console.log(filterType);
-    if(projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).length > 0) setSection(projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).map(item => (item.sectionRef)));
+    if (projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).slice(0, size).length > 0) setSection(projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).map(item => (item.sectionRef)).slice(0, size));
     else setSection([refArray[0], refArray[1]]);
   }, [text, size, filterType]);
 
   useEffect(() => {
     // if(projects.slice(0, size).filter(checkFunction).length === 0) return;
     // const sections = [projectOne, projectTwo];
-    if(sections.length === 0) return;
+    if (sections.length === 0) return;
     const sectionObserver = new IntersectionObserver(
       (entries, observer) => {
         entries.forEach(entry => {
@@ -196,7 +195,7 @@ export const List = (props) => {
     // if(sections.length == 2) sectionObserver.observe(projectTwo.current);
     sections.forEach(section => {
       // console.log(section);
-       sectionObserver.observe(section.current);
+      sectionObserver.observe(section.current);
     });
 
     indicatorObserver.observe(sections[0].current);
@@ -205,183 +204,194 @@ export const List = (props) => {
       sectionObserver.disconnect();
       indicatorObserver.disconnect();
     };
-  }, [visibleSections,sections]);
+  }, [visibleSections, sections]);
 
   const checkFunction = (item) => {
-    return (String(item.title).toUpperCase().includes(text) || String(item.description).includes(text));
+    return (String(item.title).toLowerCase().includes(text.toLowerCase()) || String(item.description).toLowerCase().includes(text.toLowerCase()));
   };
 
   return (
-    <div onClick = {(e) => {
-      
-      if(!((enter === true) && (leave === false)) && (menuShow === true)) setMenuShow(false);
-    }}>
+    <section
+      id={props.id}
+      ref={props.sectionRef}
+      onClick={(e) => {
 
-      <div className={styles.heading} ref = {props.sectionRef} id = {props.id} style={{
-        marginBottom: "0px"
+        if (!((enter === true) && (leave === false)) && (menuShow === true)) setMenuShow(false);
       }}>
-        <Heading  level={3} as="h1" style = {{
-          
+
+      <div className={styles.heading} style={{
+        marginBottom: "0px", paddingLeft: 30
+      }}>
+        <Heading level={3} as="h1" style={{
+
         }}>
-          <DecoderText text="PROJECTS"/>
-          
+          <DecoderText text="PROJECTS" />
+
         </Heading>
-        <div className = {styles.inputGroup}>
-        <Input
-          className={styles.btn}
-          style={getDelay(tokens.base.durationXS, initDelay)}
-          autoComplete="off"
-          label="Search Projects"
-          maxLength={512}
-          {...searchText}
-          onChange={(e) => {
-            
-            setText(e.target.value);
+        <div className={styles.inputGroup}>
+          <Input
+            className={styles.btn}
+            style={getDelay(tokens.base.durationXS, initDelay)}
+            autoComplete="off"
+            label="Search Projects"
+            maxLength={512}
+            {...searchText}
+            onChange={(e) => {
+
+              setText(e.target.value);
+            }}
+            value={text}
+          />
+
+
+          <Button
+            secondary
+            className={styles.button}
+            data-visible={true}
+            style={{
+              paddingLeft: "0",
+              paddingRight: "0",
+              textAlign: "center",
+              // backgroundColor:  filterType === "" ? "rgb(var(--rgbText) / 0.0)" : "rgb(var(--varText) / 0.3)!important"
+            }}
+            onClick={(e) => {
+              // e.preventDefault();
+              setMenuShow(!menuShow);
+            }}
+
+          >
+            <Icon icon="filter" style={{
+              width: "30px",
+              height: "30px",
+              margin: "0",
+              marginLeft: "10px",
+              padding: "",
+              color: filterType === "" ? "rgb(var(--rgbText) / 0.5)" : "rgb(var(--varText) / 1)"
+            }} />
+          </Button>
+          <div className={styles.modal} style={{
+            position: "absolute",
+            right: 10,
+            top: menuShow ? "70px" : "60px",
+            opacity: menuShow ? 1 : 0,
+            zIndex: menuShow ? "var(--zIndex3)" : -1000,
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "flex-start",
+            alignItems: "flex-start",
+            height: "auto",
+            transition: "all 0.2s ease-in",
+            paddingTop: "10px",
+            paddingBottom: "10px"
           }}
-          value = {text}
-        />
-       
-        
-        <Button
-          secondary
-          className={styles.button}
-          data-visible={true}
-          style = {{
-            paddingLeft: "0",
-            paddingRight: "0",
-            textAlign: "center",
-            // backgroundColor:  filterType === "" ? "rgb(var(--rgbText) / 0.0)" : "rgb(var(--varText) / 0.3)!important"
-          }}
-          onClick = {(e) => {
-            // e.preventDefault();
-            setMenuShow(!menuShow);
-          }}
-        
-        >
-          <Icon icon="filter" style = {{
-            width: "30px",
-            height: "30px",
-            margin: "0",
-            marginLeft: "10px",
-            padding: "",
-            color: filterType === "" ? "rgb(var(--rgbText) / 0.5)" : "rgb(var(--varText) / 1)"
-          }}/>
-        </Button>
-        <div className = {styles.modal} style = {{
-          position: "absolute",
-          right: 10,
-          top: menuShow ? "70px" : "60px",
-          opacity: menuShow ? 1 : 0,
-          zIndex: menuShow ? "var(--zIndex3)" : -1000,
-          display:"flex",
-          flexDirection: "column",
-          justifyContent: "flex-start",
-          alignItems: "flex-start",
-          height: "auto",
-          transition: "all 0.2s ease-in",
-          paddingTop: "10px",
-          paddingBottom: "10px"
-        }}
-        
-        onMouseEnter={(e) => {
-          // e.preventDefault();
-          setEnter(true);
-          setLeave(false);
-        }}
-        onMouseLeave={(e) => {
-          // e.preventDefault();
-          setLeave(true);
-          setEnter(false);
-        }}
-        >
-          {projectType.map((item, idx) => {
-            return (
-              <div key = {idx} style={{
-                position: "relative",
-                paddingTop: "4px",
-                paddingBottom: "4px"
-              }}>
-                <Button secondary as="button" onClick = {(e) => {
-                  setFilterType(item === filterType ? "" : item);
-                }} style = {{
-                  backgroundColor: item === filterType ? "rgb(var(--rgbText) / 0.3)" : "transparent"
+
+            onMouseEnter={(e) => {
+              // e.preventDefault();
+              setEnter(true);
+              setLeave(false);
+            }}
+            onMouseLeave={(e) => {
+              // e.preventDefault();
+              setLeave(true);
+              setEnter(false);
+            }}
+          >
+            {projectType.map((item, idx) => {
+              return (
+                <div key={idx} style={{
+                  position: "relative",
+                  paddingTop: "4px",
+                  paddingBottom: "4px"
                 }}>
-                  {item}
-                </Button>
-              </div>
-            );
-          })}
+                  <Button secondary as="button" onClick={(e) => {
+                    setFilterType(item === filterType ? "" : item);
+                  }} style={{
+                    backgroundColor: item === filterType ? "rgb(var(--rgbText) / 0.3)" : "transparent"
+                  }}>
+                    {item}
+                  </Button>
+                </div>
+              );
+            })}
+          </div>
         </div>
-        </div>
-      
+
       </div>
       <div style={{
         position: "relative"
       }}>
-      {projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).length > 0 && projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).map((item, idx) => {
-        // console.log(item);
-        return(
-          <>
-            <ProjectSummary
-            key = {idx}
-            id={item.id}
-            alternate={item.alternative}
-            sectionRef={item.sectionRef}
-            visible={visibleSections.includes(item.sectionRef.current)}
-            index={idx + 1}
-            title={item.title}
-            description={item.description}
-            buttonText={item.buttonText}
-            buttonLink={item.buttonLink}
-            model={item.model}
-          />
-          </>
-        );
-      })}
-      {projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).length == 0 &&projects.slice(0, size).map((item, idx) => {
-        // console.log(item);
-        return(
-          <>
-            <ProjectSummary
-            key = {idx}
-            id={item.id}
-            alternate={item.alternative}
-            sectionRef={item.sectionRef}
-            visible={visibleSections.includes(item.sectionRef.current) && checkFunction(item)}
-            index={idx + 1}
-            title={item.title}
-            description={item.description}
-            buttonText={item.buttonText}
-            buttonLink={item.buttonLink}
-            model={item.model}
-            style = {{
-              display: checkFunction(item) ? "flex" : "none"
-            }}
-          />
-          </>
-        );
-      })}
-      {projects.slice(0, size).filter((item) => item.type.includes(filterType)).filter(checkFunction).length == 0 && <div style={{
-        display: "flex",
-        justifyContent: "center",
-        paddingTop: "200px"
-      }}><Heading level={4}>{"There is no result."}</Heading></div>}
-      </div>
-      <div style={{
+        {projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).slice(0, size).length > 0 && projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).slice(0, size).map((item, idx) => {
+          // console.log(item);
+          return (
+            <>
+              <ProjectSummary
+                key={idx}
+                id={item.id}
+                alternate={item.alternative}
+                sectionRef={item.sectionRef}
+                visible={visibleSections.includes(item.sectionRef.current)}
+                index={idx + 1}
+                title={item.title}
+                description={item.description}
+                buttonText={item.buttonText}
+                buttonLink={item.buttonLink}
+                model={item.model}
+              />
+            </>
+          );
+        })}
+        <div style={{ width: "100%", justifyContent: "center", height: "auto", display: projects.length === size ? "none" : "flex" }}>
+          <Button iconHoverShift iconEnd="arrowDown" style={{ transition: "all 0.4s ease", opacity: "1", }} onClick={(e) => {
+            // e.preventDefault();
+            setSize(size + 1);
+          }}>
+            LOAD MORE
+          </Button></div>
+        {projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).slice(0, size).length == 0 && projects.slice(0, size).map((item, idx) => {
+          // console.log(item);
+          return (
+            <>
+              <ProjectSummary
+                key={idx}
+                id={item.id}
+                alternate={item.alternative}
+                sectionRef={item.sectionRef}
+                visible={visibleSections.includes(item.sectionRef.current) && checkFunction(item)}
+                index={idx + 1}
+                title={item.title}
+                description={item.description}
+                buttonText={item.buttonText}
+                buttonLink={item.buttonLink}
+                model={item.model}
+                style={{
+                  display: checkFunction(item) ? "flex" : "none"
+                }}
+              />
+
+            </>
+          );
+        })}
+        {projects.filter((item) => item.type.includes(filterType)).filter(checkFunction).slice(0, size).length == 0 && <div style={{
           display: "flex",
           justifyContent: "center",
-          position: "relative",
-          marginBottom: "200px",
-          marginTop: "200px",
-        }}>
-          {/* <Button iconHoverShift style = {{width: "300px"}} href = {size == 4 ? '/#article' : ""} onClick = {(e) =>{
+          paddingTop: "200px"
+        }}><Heading level={4}>{"There is no result."}</Heading></div>}
+      </div>
+      <div style={{
+        display: "flex",
+        justifyContent: "center",
+        position: "relative",
+        marginBottom: "200px",
+        marginTop: "200px",
+      }}>
+        {/* <Button iconHoverShift style = {{width: "300px"}} href = {size == 4 ? '/#article' : ""} onClick = {(e) =>{
             if(size == 4) setSize(2);
             else setSize(++size);
           }}>
               <Heading level = {5} style = {{color: "var(--rgbBackground)", letterSpacing: "5px"}} >{`${size == 4 ? "GO ARTICLE" : "VIEW MORE"} `}</Heading>
           </Button> */}
-        </div>
-    {/* <Footer className={styles.footer} /> */}
-    </div>
+      </div>
+      {/* <Footer className={styles.footer} /> */}
+    </section>
   );
 };

@@ -33,30 +33,31 @@ export const Contact = (props) => {
 
   const onSubmit = async event => {
     event.preventDefault();
-    if(sending) return;
+    if (sending) return;
 
-    try{
+    try {
       setSending(true);
-      emailjs.send("service_cude9xe","template_snjxh4k", {
+      emailjs.send("service_cude9xe", "template_snjxh4k", {
         to_name: "Chase Roll",
-        user_email: email.value, 
+        user_email: email.value,
         message: message.value,
         from_name: email.value,
         reply_to: email.value
       }, "rLC560Ku25eSknF2G")
-      .then((result) => {
-        setBack(false);
-        setSending(false);
-        setComplete(true);
-        // console.log(result.text);
-      });
-  
+        .then((result) => {
+          setBack(false);
+          setSending(false);
+          setComplete(true);
+          // console.log(result.text);
+        });
+
     }
-    catch {(error) => {
-      setSending(false);
-      setStatusError(error.text);
-    };
-    }   
+    catch {
+      (error) => {
+        setSending(false);
+        setStatusError(error.text);
+      };
+    }
     // setStatusError('');
 
     // if (sending) return;
@@ -93,11 +94,11 @@ export const Contact = (props) => {
     //   setStatusError(error.message);
     // }
     // let data = {
-      
+
     //   email : email.value,
     //   message : message.value
     // };
-    
+
     // let response = await fetch('/api/mail', {
     //   method: "POST",
     //   header: {
@@ -112,86 +113,86 @@ export const Contact = (props) => {
   };
 
   return (
-    <Section className={styles.contact} id = {props.id} ref = {props.sectionRef}>
+    <section className={styles.contact} id={props.id} ref={props.sectionRef}>
       {/* <Meta
         title="Contact"
         description="Send me a message if you’re interested in discussing a project or if you just want to say hi"
       /> */}
-      <Transition unmount in={!complete && props.visible} key = {key} timeout={1600}>
+      <Transition unmount in={!complete && props.visible} key={key} timeout={1600}>
         {(visible, status) => {
-          
+
           return (
-          <form className={styles.form} method="post" onSubmit={onSubmit}>
-            <Heading
-              className={styles.title}
-              data-status={status}
-              level={3}
-              as="h1"
-              style={getDelay(tokens.base.durationXS, initDelay, 0.3)}
-            >
-              <DecoderText text="Let's Connect" start={visible} delay={300} />
-            </Heading>
-            <Divider
-              className={styles.divider}
-              data-status={status}
-              style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
-            />
-            <Input
-              required
-              className={styles.input}
-              data-status={status}
-              style={getDelay(tokens.base.durationXS, initDelay)}
-              autoComplete="email"
-              label="Your Email"
-              type="email"
-              maxLength={512}
-              {...email}
-            />
-            <Input
-              required
-              multiline
-              className={styles.input}
-              data-status={status}
-              style={getDelay(tokens.base.durationS, initDelay)}
-              autoComplete="off"
-              label="Message"
-              maxLength={4096}
-              {...message}
-            />
-            <Transition in={statusError} timeout={msToNum(tokens.base.durationM)}>
-              {errorStatus => (
-                <div
-                  className={styles.formError}
-                  data-status={errorStatus}
-                  style={cssProps({
-                    height: errorStatus ? errorRef.current?.offsetHeight : 0,
-                  })}
-                >
-                  <div className={styles.formErrorContent} ref={errorRef}>
-                    <div className={styles.formErrorMessage}>
-                      <Icon className={styles.formErrorIcon} icon="error" />
-                      {statusError}
+            <form className={styles.form} method="post" onSubmit={onSubmit}>
+              <Heading
+                className={styles.title}
+                data-status={status}
+                level={3}
+                as="h1"
+                style={getDelay(tokens.base.durationXS, initDelay, 0.3)}
+              >
+                <DecoderText text="Let's Connect" start={visible} delay={300} />
+              </Heading>
+              <Divider
+                className={styles.divider}
+                data-status={status}
+                style={getDelay(tokens.base.durationXS, initDelay, 0.4)}
+              />
+              <Input
+                required
+                className={styles.input}
+                data-status={status}
+                style={getDelay(tokens.base.durationXS, initDelay)}
+                autoComplete="email"
+                label="Your Email"
+                type="email"
+                maxLength={512}
+                {...email}
+              />
+              <Input
+                required
+                multiline
+                className={styles.input}
+                data-status={status}
+                style={getDelay(tokens.base.durationS, initDelay)}
+                autoComplete="off"
+                label="Message"
+                maxLength={4096}
+                {...message}
+              />
+              <Transition in={statusError} timeout={msToNum(tokens.base.durationM)}>
+                {errorStatus => (
+                  <div
+                    className={styles.formError}
+                    data-status={errorStatus}
+                    style={cssProps({
+                      height: errorStatus ? errorRef.current?.offsetHeight : 0,
+                    })}
+                  >
+                    <div className={styles.formErrorContent} ref={errorRef}>
+                      <div className={styles.formErrorMessage}>
+                        <Icon className={styles.formErrorIcon} icon="error" />
+                        {statusError}
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
-            </Transition>
-            <Button
-              className={styles.button}
-              data-status={status}
-              data-sending={sending}
-              style={getDelay(tokens.base.durationM, initDelay)}
-              disabled={sending}
-              loading={sending}
-              loadingText="Sending..."
-              icon="send"
-              type="submit"
-              
-            >
-              Send message
-            </Button>
-          </form>);
-      }}
+                )}
+              </Transition>
+              <Button
+                className={styles.button}
+                data-status={status}
+                data-sending={sending}
+                style={getDelay(tokens.base.durationM, initDelay)}
+                disabled={sending}
+                loading={sending}
+                loadingText="Sending..."
+                icon="send"
+                type="submit"
+
+              >
+                Send message
+              </Button>
+            </form>);
+        }}
       </Transition>
       <Transition unmount in={complete}>
         {(visible, status) => (
@@ -221,7 +222,7 @@ export const Contact = (props) => {
               style={getDelay(tokens.base.durationM)}
               href="/"
               icon="chevronRight"
-              onClick = {(e) => {
+              onClick={(e) => {
                 // e.preventDefault();
                 setKey(Date.now());
                 setComplete(false);
@@ -233,7 +234,7 @@ export const Contact = (props) => {
         )}
       </Transition>
       {/* <Footer className={styles.footer} /> */}
-    </Section>
+    </section>
   );
 };
 

@@ -52,7 +52,7 @@ const roles = ['UI / UX Design', 'Front / Backend Development', 'Artificial Inte
 export const Slice = () => {
 
   useEffect(() => {
-    
+
     let isHovering1 = false;
     let isHovering2 = false;
     const LERP_SCALE = 0.15;
@@ -64,30 +64,30 @@ export const Slice = () => {
     let targetBorderWidth = 1;
 
     function isDarkMode() {
-      let isDark = document.body.getAttribute('data-theme')  === 'light' ? false : true; 
+      let isDark = document.body.getAttribute('data-theme') === 'light' ? false : true;
       // console.log(isDark);
       return isDark;
-  }
+    }
 
     function updateCursors() {
-        const cursor1 = document.querySelector('.custom-cursor');
-        const cursor2 = document.querySelector('.custom-cursor-2');
-        const darkMode = isDarkMode();
+      const cursor1 = document.querySelector('.custom-cursor');
+      const cursor2 = document.querySelector('.custom-cursor-2');
+      const darkMode = isDarkMode();
 
-        cursor1.style.backgroundColor = darkMode ? "white" : "black";
-        let cursorColor2 = darkMode
-            ? `rgba(255, 255, 255, ${currentBorderOpacity})`
-            : `rgba(0, 0, 0, ${currentBorderOpacity})`;
-        cursor2.style.borderColor = cursorColor2;
+      cursor1.style.backgroundColor = darkMode ? "white" : "black";
+      let cursorColor2 = darkMode
+        ? `rgba(255, 255, 255, ${currentBorderOpacity})`
+        : `rgba(0, 0, 0, ${currentBorderOpacity})`;
+      cursor2.style.borderColor = cursorColor2;
     }
 
     function lerp(a, b, t) {
-        return a + (b - a) * t;
+      return a + (b - a) * t;
     }
 
     let scale = 1.0;
     let targetScale = 1.0;
-    
+
     let mouseX = 0;
     let mouseY = 0;
     let prevCursorX1 = 0;
@@ -98,86 +98,86 @@ export const Slice = () => {
 
 
     function update() {
-        if (window.angular) {
-            return;
-        }
+      if (window.angular) {
+        return;
+      }
 
-        const cursor1 = document.querySelector('.custom-cursor');
-        const cursor2 = document.querySelector('.custom-cursor-2');
+      const cursor1 = document.querySelector('.custom-cursor');
+      const cursor2 = document.querySelector('.custom-cursor-2');
 
-        prevCursorX1 = lerp(prevCursorX1, mouseX, LERP_SCALE * 4);
-        prevCursorY1 = lerp(prevCursorY1, mouseY, LERP_SCALE * 4);
+      prevCursorX1 = lerp(prevCursorX1, mouseX, LERP_SCALE * 4);
+      prevCursorY1 = lerp(prevCursorY1, mouseY, LERP_SCALE * 4);
 
-        prevCursorX2 = lerp(prevCursorX2, mouseX, LERP_SCALE * 3);
-        prevCursorY2 = lerp(prevCursorY2, mouseY, LERP_SCALE * 3);
+      prevCursorX2 = lerp(prevCursorX2, mouseX, LERP_SCALE * 3);
+      prevCursorY2 = lerp(prevCursorY2, mouseY, LERP_SCALE * 3);
 
-        const transform1 = `translate3D(${prevCursorX1}px, ${prevCursorY1}px, 0) scale(1.0)`;
-        cursor1.style.transform = transform1;
+      const transform1 = `translate3D(${prevCursorX1}px, ${prevCursorY1}px, 0) scale(1.0)`;
+      cursor1.style.transform = transform1;
 
-        let scaleLerpScale = isHovering1 && isHovering2 ? LERP_SCALE_SLOW : LERP_SCALE;
-        scale = lerp(scale, targetScale, scaleLerpScale);
-        currentBorderWidth = lerp(currentBorderWidth, targetBorderWidth, LERP_SCALE);
-        currentBorderOpacity = lerp(currentBorderOpacity, targetBorderOpacity, LERP_SCALE);
+      let scaleLerpScale = isHovering1 && isHovering2 ? LERP_SCALE_SLOW : LERP_SCALE;
+      scale = lerp(scale, targetScale, scaleLerpScale);
+      currentBorderWidth = lerp(currentBorderWidth, targetBorderWidth, LERP_SCALE);
+      currentBorderOpacity = lerp(currentBorderOpacity, targetBorderOpacity, LERP_SCALE);
 
-        const transform2 = `translate3D(${prevCursorX2}px, ${prevCursorY2}px, 0) scale(${scale})`;
-        cursor2.style.transform = transform2;
-        cursor2.style.borderWidth = `${currentBorderWidth}px`;
+      const transform2 = `translate3D(${prevCursorX2}px, ${prevCursorY2}px, 0) scale(${scale})`;
+      cursor2.style.transform = transform2;
+      cursor2.style.borderWidth = `${currentBorderWidth}px`;
 
-        updateCursors();
+      updateCursors();
 
-        requestAnimationFrame(update);
+      requestAnimationFrame(update);
     }
 
-    
+
 
     window.addEventListener('mousemove', (e) => {
-        const cursor2 = document.querySelector('.custom-cursor-2');
-        const cursor1 = document.querySelector('.custom-cursor');
+      const cursor2 = document.querySelector('.custom-cursor-2');
+      const cursor1 = document.querySelector('.custom-cursor');
 
-        cursor1.style.opacity = 1;
-        cursor2.style.opacity = 1;
-        const widthRatio = window.innerWidth / prevWindowWidth;
-        mouseX = e.clientX - 16 * widthRatio;
-        mouseY = e.clientY - 16;
-        prevWindowWidth = window.innerWidth;
+      cursor1.style.opacity = 1;
+      cursor2.style.opacity = 1;
+      const widthRatio = window.innerWidth / prevWindowWidth;
+      mouseX = e.clientX - 16 * widthRatio;
+      mouseY = e.clientY - 16;
+      prevWindowWidth = window.innerWidth;
     });
 
     function setupCursors() {
-        // const cursor1 = document.querySelector('.custom-cursor');
-        const button = document.querySelectorAll('a');
-        const link = document.querySelectorAll('button');
+      // const cursor1 = document.querySelector('.custom-cursor');
+      const button = document.querySelectorAll('a');
+      const link = document.querySelectorAll('button');
 
-        button.forEach(function (button) {
-            button.addEventListener("mouseenter", function () {
-                isHovering2 = true;
-                targetScale = 1.5;
-                targetBorderWidth = 15.5;
-                targetBorderOpacity = 0.5;
-            });
-
-            button.addEventListener("mouseleave", function () {
-                isHovering2 = false;
-                targetScale = 1.0;
-                targetBorderWidth = 1;
-                targetBorderOpacity = 1;
-            });
+      button.forEach(function (button) {
+        button.addEventListener("mouseenter", function () {
+          isHovering2 = true;
+          targetScale = 1.5;
+          targetBorderWidth = 15.5;
+          targetBorderOpacity = 0.5;
         });
 
-        link.forEach(function (link) {
-            link.addEventListener("mouseenter", function () {
-                isHovering2 = true;
-                targetScale = 1.5;
-                targetBorderWidth = 15.5;
-                targetBorderOpacity = 0.5;
-            });
-
-            link.addEventListener("mouseleave", function () {
-                isHovering2 = false;
-                targetScale = 1.0;
-                targetBorderWidth = 1;
-                targetBorderOpacity = 1;
-            });
+        button.addEventListener("mouseleave", function () {
+          isHovering2 = false;
+          targetScale = 1.0;
+          targetBorderWidth = 1;
+          targetBorderOpacity = 1;
         });
+      });
+
+      link.forEach(function (link) {
+        link.addEventListener("mouseenter", function () {
+          isHovering2 = true;
+          targetScale = 1.5;
+          targetBorderWidth = 15.5;
+          targetBorderOpacity = 0.5;
+        });
+
+        link.addEventListener("mouseleave", function () {
+          isHovering2 = false;
+          targetScale = 1.0;
+          targetBorderWidth = 1;
+          targetBorderOpacity = 1;
+        });
+      });
     }
 
     setupCursors();
@@ -193,11 +193,11 @@ export const Slice = () => {
     // });
 
     update();
-  },[]);
+  }, []);
 
   return (
     <Fragment>
-      
+
       <Meta title={title} prefix="Projects" description={description} />
       <CustomCursor />
       <CustomCursorCore />
@@ -226,13 +226,13 @@ export const Slice = () => {
         </ProjectSection>
         <ProjectSection light>
           <ProjectSectionContent>
-          
+
             <ProjectTextRow>
               <ProjectSectionHeading>How It All Started</ProjectSectionHeading>
               <ProjectSectionText>
-              Helios was born from my struggle for discipline and the ambition to help others facing similar struggles.  The app provides a robust toolkit for individuals looking to enhance their productivity, physicality, and mental acuity.  If successful, Helios will aid users on the journey of realizing their full potential.
+                Helios was born from my struggle for discipline and the ambition to help others facing similar struggles.  The app provides a robust toolkit for individuals looking to enhance their productivity, physicality, and mental acuity.  If successful, Helios will aid users on the journey of realizing their full potential.
               </ProjectSectionText>
-              
+
             </ProjectTextRow>
             <Image
               srcSet={[sliceSlides, sliceSlidesLarge]}
@@ -247,10 +247,10 @@ export const Slice = () => {
             <div className={styles.imagesText}>
               <ProjectSectionHeading>Bringing it together</ProjectSectionHeading>
               <ProjectSectionText>
-              I aimed to integrate the best features from existing time management, fitness, and motivational apps, and enhance them with AI.
+                I aimed to integrate the best features from existing time management, fitness, and motivational apps, and enhance them with AI.
               </ProjectSectionText>
               <ProjectSectionText>
-              Helios achieves this all while maintaining a simple, clean, and easy to use user interface.
+                Helios achieves this all while maintaining a simple, clean, and easy to use user interface.
               </ProjectSectionText>
             </div>
             <div className={styles.sidebarImages}>
@@ -271,7 +271,7 @@ export const Slice = () => {
             </div>
           </ProjectSectionColumns>
         </ProjectSection>
-        
+
         <ProjectSection padding="top">
           <ProjectSectionContent className={styles.grid}>
             <div className={styles.gridImage}>
@@ -296,7 +296,7 @@ export const Slice = () => {
             <div className={styles.gridText}>
               <ProjectSectionHeading>Professional Feedback</ProjectSectionHeading>
               <ProjectSectionText>
-              {`Throughout the development phase of Helios, I've engaged with industry experts, from UI/UX designers to successful CEOs, to refine the app's functionality and business approach. This invaluable feedback has not only shaped Helios to better meet user needs but has also expanded my professional network and applied learning.`}
+                {`Throughout the development phase of Helios, I've engaged with industry experts, from UI/UX designers to successful CEOs, to refine the app's functionality and business approach. This invaluable feedback has not only shaped Helios to better meet user needs but has also expanded my professional network and applied learning.`}
               </ProjectSectionText>
             </div>
           </ProjectSectionContent>
@@ -307,7 +307,7 @@ export const Slice = () => {
             <ProjectTextRow>
               <ProjectSectionHeading>Whats Next?</ProjectSectionHeading>
               <ProjectSectionText>
-              {`Slated for a 2024 release, Helios is set to revolutionize personal productivity. We're currently adding additional features, polishing the user experience, and preparing post-launch support. Excitement mounts as we ready Helios to be available to the public.`}
+                {`Slated for a 2024 release, Helios is set to revolutionize personal productivity. We're currently adding additional features, polishing the user experience, and preparing post-launch support. Excitement mounts as we ready Helios to be available to the public.`}
               </ProjectSectionText>
             </ProjectTextRow>
             <Image
@@ -318,13 +318,13 @@ export const Slice = () => {
             />
           </ProjectSectionContent>
         </ProjectSection>
-        
+
         <ProjectSection>
           <ProjectSectionContent>
             <ProjectTextRow center centerMobile noMargin>
               <ProjectSectionHeading>Project Release</ProjectSectionHeading>
               <ProjectSectionText>
-              Completion of this project is on the horizon. Expect this page to be updated with comprehensive details soon.
+                Completion of this project is on the horizon. Expect this page to be updated with comprehensive details soon.
               </ProjectSectionText>
             </ProjectTextRow>
           </ProjectSectionContent>

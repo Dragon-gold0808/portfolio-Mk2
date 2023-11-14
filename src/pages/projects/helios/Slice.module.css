@@ -51,7 +51,7 @@
   @media (--mediaLaptop) {
     width: auto;
     left: auto;
-    right: auto;
+    /* right: auto; */
   }
 }
 
